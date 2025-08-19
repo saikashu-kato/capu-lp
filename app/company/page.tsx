@@ -71,17 +71,13 @@ export default function CompanyPage() {
                   <dd className="text-sm text-gray-900">080-1865-1568</dd>
                 </div>
                 <div className="flex flex-col sm:flex-row">
-                  <dt className="text-sm font-medium text-gray-700 sm:w-32 mb-2 sm:mb-0">メールアドレス</dt>
-                  <dd className="text-sm text-gray-900">capu-info@saikashu.com</dd>
-                </div>
-                <div className="flex flex-col sm:flex-row">
                   <dt className="text-sm font-medium text-gray-700 sm:w-32 mb-2 sm:mb-0">事業内容</dt>
                   <dd className="text-sm text-gray-900">
-                    デジタルマーケティング事業
+                    システム開発・運用事業
                     <br />
                     コンテンツ制作事業
                     <br />
-                    システム開発事業
+                    デジタルマーケティング事業
                   </dd>
                 </div>
                 <div className="flex flex-col sm:flex-row">

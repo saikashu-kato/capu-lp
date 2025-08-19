@@ -270,7 +270,7 @@ export default function ContactPage() {
           <div className="text-center">
             <p className="text-sm text-gray-600 mb-4">
               当社の
-              <a href="#" className="text-pink-500 hover:underline">
+              <a href="https://capu-app.notion.site/Capu_-21b42cc815298053b8f6e818e327c1f1" className="text-pink-500 hover:underline">
                 プライバシーポリシー
               </a>
               に同意の上、送信してください。
