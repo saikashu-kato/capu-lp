@@ -1,5 +1,6 @@
-import Header from "@/components/header"
-import Footer from "@/components/footer"
+import Header from "@/components/header";
+import Footer from "@/components/footer";
+import Link from "next/link";
 
 export default function CompanyPage() {
   return (
@@ -10,9 +11,9 @@ export default function CompanyPage() {
       {/* Breadcrumb */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <nav className="text-sm text-gray-500">
-          <a href="/" className="hover:text-gray-700">
+          <Link href="/" className="hover:text-gray-700">
             HOME
-          </a>
+          </Link>
           <span className="mx-2">&gt;</span>
           <span>会社概要</span>
         </nav>
@@ -47,19 +48,29 @@ export default function CompanyPage() {
             <div className="bg-gray-50 rounded-lg p-8">
               <dl className="space-y-6">
                 <div className="flex flex-col sm:flex-row">
-                  <dt className="text-sm font-medium text-gray-700 sm:w-32 mb-2 sm:mb-0">会社名</dt>
+                  <dt className="text-sm font-medium text-gray-700 sm:w-32 mb-2 sm:mb-0">
+                    会社名
+                  </dt>
                   <dd className="text-sm text-gray-900">株式会社Capu</dd>
                 </div>
                 <div className="flex flex-col sm:flex-row">
-                  <dt className="text-sm font-medium text-gray-700 sm:w-32 mb-2 sm:mb-0">設立</dt>
+                  <dt className="text-sm font-medium text-gray-700 sm:w-32 mb-2 sm:mb-0">
+                    設立
+                  </dt>
                   <dd className="text-sm text-gray-900">2025年9月</dd>
                 </div>
                 <div className="flex flex-col sm:flex-row">
-                  <dt className="text-sm font-medium text-gray-700 sm:w-32 mb-2 sm:mb-0">代表者</dt>
-                  <dd className="text-sm text-gray-900">代表取締役 加藤圭一郎</dd>
+                  <dt className="text-sm font-medium text-gray-700 sm:w-32 mb-2 sm:mb-0">
+                    代表者
+                  </dt>
+                  <dd className="text-sm text-gray-900">
+                    代表取締役 加藤圭一郎
+                  </dd>
                 </div>
                 <div className="flex flex-col sm:flex-row">
-                  <dt className="text-sm font-medium text-gray-700 sm:w-32 mb-2 sm:mb-0">所在地</dt>
+                  <dt className="text-sm font-medium text-gray-700 sm:w-32 mb-2 sm:mb-0">
+                    所在地
+                  </dt>
                   <dd className="text-sm text-gray-900">
                     〒104-0061
                     <br />
@@ -67,11 +78,15 @@ export default function CompanyPage() {
                   </dd>
                 </div>
                 <div className="flex flex-col sm:flex-row">
-                  <dt className="text-sm font-medium text-gray-700 sm:w-32 mb-2 sm:mb-0">電話番号</dt>
+                  <dt className="text-sm font-medium text-gray-700 sm:w-32 mb-2 sm:mb-0">
+                    電話番号
+                  </dt>
                   <dd className="text-sm text-gray-900">080-1865-1568</dd>
                 </div>
                 <div className="flex flex-col sm:flex-row">
-                  <dt className="text-sm font-medium text-gray-700 sm:w-32 mb-2 sm:mb-0">事業内容</dt>
+                  <dt className="text-sm font-medium text-gray-700 sm:w-32 mb-2 sm:mb-0">
+                    事業内容
+                  </dt>
                   <dd className="text-sm text-gray-900">
                     システム開発・運用事業
                     <br />
@@ -81,8 +96,12 @@ export default function CompanyPage() {
                   </dd>
                 </div>
                 <div className="flex flex-col sm:flex-row">
-                  <dt className="text-sm font-medium text-gray-700 sm:w-32 mb-2 sm:mb-0">従業員数</dt>
-                  <dd className="text-sm text-gray-900">1名（2025年9月現在）</dd>
+                  <dt className="text-sm font-medium text-gray-700 sm:w-32 mb-2 sm:mb-0">
+                    従業員数
+                  </dt>
+                  <dd className="text-sm text-gray-900">
+                    1名（2025年9月現在）
+                  </dd>
                 </div>
               </dl>
             </div>
@@ -93,5 +112,5 @@ export default function CompanyPage() {
       {/* Footer */}
       <Footer />
     </div>
-  )
+  );
 }

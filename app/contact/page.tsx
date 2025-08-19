@@ -1,99 +1,112 @@
-"use client"
-import { useState } from "react"
-import { useToast } from "@/hooks/use-toast"
-import Header from "@/components/header"
-import Footer from "@/components/footer"
+"use client";
+import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
+import Header from "@/components/header";
+import Footer from "@/components/footer";
+import Link from "next/link";
 
 export default function ContactPage() {
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
-    inquiryType: '',
-    name: '',
-    company: '',
-    department: '',
-    email: '',
-    phone: '',
-    videoUrl: '',
-    message: '',
-    agreed: false
-  })
-  const { toast } = useToast()
+    inquiryType: "",
+    name: "",
+    company: "",
+    department: "",
+    email: "",
+    phone: "",
+    videoUrl: "",
+    message: "",
+    agreed: false,
+  });
+  const { toast } = useToast();
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    const { name, value, type } = e.target
-    setFormData(prev => ({
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >,
+  ) => {
+    const { name, value, type } = e.target;
+    setFormData((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value
-    }))
-  }
+      [name]:
+        type === "checkbox" ? (e.target as HTMLInputElement).checked : value,
+    }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    
+    e.preventDefault();
+
     if (!formData.agreed) {
       toast({
         title: "エラー",
         description: "プライバシーポリシーに同意してください",
-        variant: "destructive"
-      })
-      return
+        variant: "destructive",
+      });
+      return;
     }
 
-    if (!formData.name || !formData.company || !formData.email || !formData.phone || !formData.message || !formData.inquiryType) {
+    if (
+      !formData.name ||
+      !formData.company ||
+      !formData.email ||
+      !formData.phone ||
+      !formData.message ||
+      !formData.inquiryType
+    ) {
       toast({
         title: "エラー",
         description: "必須項目をすべて入力してください",
-        variant: "destructive"
-      })
-      return
+        variant: "destructive",
+      });
+      return;
     }
 
-    setIsSubmitting(true)
+    setIsSubmitting(true);
 
     try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
+      const response = await fetch("/api/contact", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
-      })
+      });
 
-      const result = await response.json()
+      const result = await response.json();
 
       if (response.ok) {
         toast({
           title: "送信完了",
-          description: "お問い合わせを送信しました。ありがとうございます。"
-        })
+          description: "お問い合わせを送信しました。ありがとうございます。",
+        });
         setFormData({
-          inquiryType: '',
-          name: '',
-          company: '',
-          department: '',
-          email: '',
-          phone: '',
-          videoUrl: '',
-          message: '',
-          agreed: false
-        })
+          inquiryType: "",
+          name: "",
+          company: "",
+          department: "",
+          email: "",
+          phone: "",
+          videoUrl: "",
+          message: "",
+          agreed: false,
+        });
       } else {
         toast({
           title: "エラー",
           description: result.error || "送信に失敗しました",
-          variant: "destructive"
-        })
+          variant: "destructive",
+        });
       }
-    } catch (error) {
+    } catch {
       toast({
         title: "エラー",
         description: "ネットワークエラーが発生しました",
-        variant: "destructive"
-      })
+        variant: "destructive",
+      });
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
-  }
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -103,9 +116,9 @@ export default function ContactPage() {
       {/* Breadcrumb */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <nav className="text-sm text-gray-500">
-          <a href="/" className="hover:text-gray-700">
+          <Link href="/" className="hover:text-gray-700">
             HOME
-          </a>
+          </Link>
           <span className="mx-2">&gt;</span>
           <span>お問い合わせ</span>
         </nav>
@@ -138,9 +151,11 @@ export default function ContactPage() {
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               お問い合わせ種別
-              <span className="bg-red-500 text-white text-xs px-2 py-1 rounded ml-2">必須</span>
+              <span className="bg-red-500 text-white text-xs px-2 py-1 rounded ml-2">
+                必須
+              </span>
             </label>
-            <select 
+            <select
               name="inquiryType"
               value={formData.inquiryType}
               onChange={handleInputChange}
@@ -159,7 +174,9 @@ export default function ContactPage() {
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               お名前
-              <span className="bg-red-500 text-white text-xs px-2 py-1 rounded ml-2">必須</span>
+              <span className="bg-red-500 text-white text-xs px-2 py-1 rounded ml-2">
+                必須
+              </span>
             </label>
             <input
               type="text"
@@ -176,7 +193,9 @@ export default function ContactPage() {
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               会社名
-              <span className="bg-red-500 text-white text-xs px-2 py-1 rounded ml-2">必須</span>
+              <span className="bg-red-500 text-white text-xs px-2 py-1 rounded ml-2">
+                必須
+              </span>
             </label>
             <input
               type="text"
@@ -191,7 +210,9 @@ export default function ContactPage() {
 
           {/* Department */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">部署名</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              部署名
+            </label>
             <input
               type="text"
               name="department"
@@ -206,7 +227,9 @@ export default function ContactPage() {
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               メールアドレス
-              <span className="bg-red-500 text-white text-xs px-2 py-1 rounded ml-2">必須</span>
+              <span className="bg-red-500 text-white text-xs px-2 py-1 rounded ml-2">
+                必須
+              </span>
             </label>
             <input
               type="email"
@@ -223,7 +246,9 @@ export default function ContactPage() {
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               電話番号
-              <span className="bg-red-500 text-white text-xs px-2 py-1 rounded ml-2">必須</span>
+              <span className="bg-red-500 text-white text-xs px-2 py-1 rounded ml-2">
+                必須
+              </span>
             </label>
             <input
               type="tel"
@@ -238,7 +263,9 @@ export default function ContactPage() {
 
           {/* Video URL */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">動画先URL</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              動画先URL
+            </label>
             <input
               type="url"
               name="videoUrl"
@@ -253,7 +280,9 @@ export default function ContactPage() {
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               お問い合わせ内容
-              <span className="bg-red-500 text-white text-xs px-2 py-1 rounded ml-2">必須</span>
+              <span className="bg-red-500 text-white text-xs px-2 py-1 rounded ml-2">
+                必須
+              </span>
             </label>
             <textarea
               name="message"
@@ -270,7 +299,10 @@ export default function ContactPage() {
           <div className="text-center">
             <p className="text-sm text-gray-600 mb-4">
               当社の
-              <a href="https://capu-app.notion.site/Capu_-21b42cc815298053b8f6e818e327c1f1" className="text-pink-500 hover:underline">
+              <a
+                href="https://capu-app.notion.site/Capu_-21b42cc815298053b8f6e818e327c1f1"
+                className="text-pink-500 hover:underline"
+              >
                 プライバシーポリシー
               </a>
               に同意の上、送信してください。
@@ -295,7 +327,7 @@ export default function ContactPage() {
               disabled={isSubmitting}
               className="bg-pink-500 text-white px-12 py-3 rounded-md hover:bg-pink-600 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isSubmitting ? '送信中...' : '送信する'}
+              {isSubmitting ? "送信中..." : "送信する"}
             </button>
           </div>
         </form>
@@ -304,5 +336,5 @@ export default function ContactPage() {
       {/* Footer */}
       <Footer />
     </div>
-  )
+  );
 }
