@@ -129,13 +129,12 @@ export default function HomePage() {
             </a>
           </div>
           <div className="relative">
-            <div className="bg-gray-200 rounded-lg p-6 md:p-8 h-64 md:h-96 flex items-center justify-center">
+            <div className="bg-gray-200 rounded-lg overflow-hidden h-64 md:h-96 relative">
               <Image
                 src="/image8.png"
-                alt="Capuアプリのモバイルインターフェースモックアップ - 女子向けエンタメマッチング"
-                width={300}
-                height={600}
-                className="max-h-full object-contain"
+                alt="Capuアプリのモバイルインターフェースモックアップ"
+                fill
+                className="object-cover"
                 priority
               />
             </div>
