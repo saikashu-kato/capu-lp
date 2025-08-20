@@ -1,5 +1,30 @@
 import { NextRequest, NextResponse } from "next/server";
 
+async function verifyRecaptcha(token: string): Promise<boolean> {
+  const secretKey = process.env.RECAPTCHA_SECRET_KEY;
+  
+  if (!secretKey) {
+    console.error("RECAPTCHA_SECRET_KEY is not set");
+    return false;
+  }
+
+  try {
+    const response = await fetch("https://www.google.com/recaptcha/api/siteverify", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: `secret=${secretKey}&response=${token}`,
+    });
+
+    const data = await response.json();
+    return data.success === true;
+  } catch (error) {
+    console.error("reCAPTCHA verification error:", error);
+    return false;
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -14,6 +39,7 @@ export async function POST(request: NextRequest) {
       videoUrl,
       message,
       agreed,
+      recaptchaToken,
     } = body;
 
     if (!agreed) {
@@ -26,6 +52,22 @@ export async function POST(request: NextRequest) {
     if (!name || !company || !email || !phone || !message || !inquiryType) {
       return NextResponse.json(
         { error: "必須項目をすべて入力してください" },
+        { status: 400 },
+      );
+    }
+
+    // reCAPTCHA検証
+    if (!recaptchaToken) {
+      return NextResponse.json(
+        { error: "reCAPTCHA認証が必要です" },
+        { status: 400 },
+      );
+    }
+
+    const isRecaptchaValid = await verifyRecaptcha(recaptchaToken);
+    if (!isRecaptchaValid) {
+      return NextResponse.json(
+        { error: "reCAPTCHA認証に失敗しました" },
         { status: 400 },
       );
     }

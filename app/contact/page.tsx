@@ -1,12 +1,14 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useToast } from "@/hooks/use-toast";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import Link from "next/link";
+import Recaptcha, { RecaptchaRef } from "@/components/recaptcha";
 
 export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     inquiryType: "",
     name: "",
@@ -19,6 +21,7 @@ export default function ContactPage() {
     agreed: false,
   });
   const { toast } = useToast();
+  const recaptchaRef = useRef<RecaptchaRef>(null);
 
   const handleInputChange = (
     e: React.ChangeEvent<
@@ -61,6 +64,15 @@ export default function ContactPage() {
       return;
     }
 
+    if (!recaptchaToken) {
+      toast({
+        title: "エラー",
+        description: "reCAPTCHA認証を完了してください",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -69,7 +81,10 @@ export default function ContactPage() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          recaptchaToken,
+        }),
       });
 
       const result = await response.json();
@@ -90,6 +105,8 @@ export default function ContactPage() {
           message: "",
           agreed: false,
         });
+        setRecaptchaToken(null);
+        recaptchaRef.current?.reset();
       } else {
         toast({
           title: "エラー",
@@ -106,6 +123,28 @@ export default function ContactPage() {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleRecaptchaChange = (token: string | null) => {
+    setRecaptchaToken(token);
+  };
+
+  const handleRecaptchaExpired = () => {
+    setRecaptchaToken(null);
+    toast({
+      title: "reCAPTCHAが期限切れです",
+      description: "もう一度認証してください",
+      variant: "destructive",
+    });
+  };
+
+  const handleRecaptchaError = () => {
+    setRecaptchaToken(null);
+    toast({
+      title: "reCAPTCHA認証エラー",
+      description: "認証に失敗しました。もう一度お試しください",
+      variant: "destructive",
+    });
   };
 
   return (
@@ -294,6 +333,16 @@ export default function ContactPage() {
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent resize-vertical"
               required
             ></textarea>
+          </div>
+
+          {/* reCAPTCHA */}
+          <div className="flex justify-center">
+            <Recaptcha
+              ref={recaptchaRef}
+              onChange={handleRecaptchaChange}
+              onExpired={handleRecaptchaExpired}
+              onError={handleRecaptchaError}
+            />
           </div>
 
           {/* Privacy Policy */}
