@@ -163,9 +163,10 @@ export default function ContactPage() {
               required
             >
               <option value="">選択してください</option>
-              <option value="コラボ依頼">コラボ依頼</option>
-              <option value="キャスティング依頼">キャスティング依頼</option>
-              <option value="店舗展開">店舗展開</option>
+              <option value="Capuアプリについて">Capuアプリについて</option>
+              <option value="システム開発依頼">システム開発依頼</option>
+              <option value="コンテンツ制作依頼">コンテンツ制作依頼</option>
+              <option value="デジタルマーケティング相談">デジタルマーケティング相談</option>
               <option value="その他">その他</option>
             </select>
           </div>
